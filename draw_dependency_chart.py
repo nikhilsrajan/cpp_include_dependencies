@@ -35,7 +35,7 @@ def get_dependency_count(dependent_dependeny_tuple_list:List[Tuple[str, str]]) -
     return dependency_count
 
 
-def draw_dependency_chart(dependent_dependeny_tuple_list:List[Tuple[str, str]], , draw_format:str='pdf', export_name:str='dependency_chart') -> None:
+def draw_dependency_chart(dependent_dependeny_tuple_list:List[Tuple[str, str]], draw_format:str='pdf', export_name:str='dependency_chart') -> None:
     dependency_count = normalize_dependency_count(get_dependency_count(dependent_dependeny_tuple_list), 1, 9)
 
     d = Digraph(export_name, filename=export_name, node_attr={'colorscheme': 'orrd9', 'style': 'filled', 'shape' : 'record'})
