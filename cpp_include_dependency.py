@@ -84,7 +84,7 @@ def get_includes(filepath:str) -> List[str]:
                 curpos = getcurpos(fin)
                 c = read1(fin)
                 if c == '/':    # ignoring single line comment
-                    while c != '\n' and c:
+                    while c != '\n' and not not c:
                         c = read1(fin)
 
                 elif c == '*':  # ignoring multi line comment
@@ -97,7 +97,7 @@ def get_includes(filepath:str) -> List[str]:
                                 break
                             else:
                                 setcurpos(fin, curpos)
-                        elif c:
+                        elif not c:
                             break
                 else:
                     setcurpos(fin, curpos)
@@ -109,7 +109,7 @@ def get_includes(filepath:str) -> List[str]:
                         c = read1(fin)
                     elif c == '"':
                         break
-                    elif c:
+                    elif not c:
                         break
 
             elif c == '#':
