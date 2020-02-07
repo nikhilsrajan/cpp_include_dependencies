@@ -253,4 +253,3 @@ ignore_outside_files = True
 dd_tuple_list = get_dependent_dependeny_tuple_list(folderpaths, ignore_files, ignore_outside_files)
 
 draw_dependency_chart(dd_tuple_list)
-
