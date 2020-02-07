@@ -147,25 +147,25 @@ def myjoin(a:str, b:str):
     joined = '/'.join(joined_splits)
     return joined
 
-def get_filepaths_in_folder(folderpath:str, ignore_files:List[str], recursive:bool=False) -> List[str]:
+def get_filepaths_in_folder(folderpath:str, ignore:List[str], recursive:bool=False) -> List[str]:
     print('get_filepaths_in_folder:', folderpath)
     list_filepaths = []
     for f in listdir(folderpath):
-        if f not in ignore_files:
+        if f not in ignore:
             f_path = myjoin(folderpath, f)
             if isfile(f_path):
                 list_filepaths.append(myjoin(folderpath, f))
             elif recursive:
-                list_filepaths += get_filepaths_in_folder(f_path, ignore_files, recursive)
+                list_filepaths += get_filepaths_in_folder(f_path, ignore, recursive)
 
     return list_filepaths
 
 
-def get_filepaths_in_folders(folderpaths:List[str], ignore_files:List[str], recursive:bool=False) -> List[str]:
+def get_filepaths_in_folders(folderpaths:List[str], ignore:List[str], recursive:bool=False) -> List[str]:
     print('get_filepaths_in_folders')
     list_filepaths = []
     for folderpath in folderpaths:
-        list_filepaths += get_filepaths_in_folder(folderpath, ignore_files, recursive)
+        list_filepaths += get_filepaths_in_folder(folderpath, ignore, recursive)
     return list_filepaths
 
 
@@ -175,20 +175,20 @@ def get_filepaths_in_folders(folderpaths:List[str], ignore_files:List[str], recu
 
 from typing import Tuple
 
-def get_dependent_dependeny_tuple_list(folderpaths:List[str], ignore_files:List[str] = [], ignore_outside_files:bool = False, recursive:bool = False) -> List[Tuple[str, str]]:
+def get_dependent_dependeny_tuple_list(folderpaths:List[str], ignore:List[str] = [], ignore_outside_files:bool = False, recursive:bool = False) -> List[Tuple[str, str]]:
     print('get_dependent_dependeny_tuple_list')
     dependent_dependency_tuple_list = []
     filepaths = []
     inside_files = []
 
-    for filepath in get_filepaths_in_folders(folderpaths, ignore_files, recursive):
+    for filepath in get_filepaths_in_folders(folderpaths, ignore, recursive):
         filepaths.append(filepath)
         inside_files.append(get_filename_from_path(filepath))
 
     for filepath in filepaths:
         includes = get_includes(filepath)
         for include in includes:
-            if include not in ignore_files and (not ignore_outside_files or include in inside_files):
+            if include not in ignore and (not ignore_outside_files or include in inside_files):
                 dependent_dependency_tuple_list.append((get_filename_from_path(filepath), include))
     
     print('Returning dependent_dependency_tuple_list')

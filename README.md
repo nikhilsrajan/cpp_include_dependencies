@@ -15,7 +15,7 @@ folderpaths = [
 
 # List of files to be ignored
 # Useful when there are files that are included in every file
-ignore_files = [
+ignore = [
     'included_almost_everywhere.h',
     'catch.hpp'
 ]
@@ -29,7 +29,7 @@ recursive = True
 
 # Get the dependencies as a list of (str, str) tuple -- (dependent, dependency)
 dd_tuple_list = get_dependent_dependeny_tuple_list(folderpaths = folderpaths,
-                                                   ignore_files = ignore_files,
+                                                   ignore = ignore,
                                                    ignore_outside_files = ignore_outside_files,
                                                    recursive = recursive)
 
