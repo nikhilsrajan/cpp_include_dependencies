@@ -97,6 +97,8 @@ def get_includes(filepath:str) -> List[str]:
                                 break
                             else:
                                 setcurpos(fin, curpos)
+                        elif c:
+                            break
                 else:
                     setcurpos(fin, curpos)
 
@@ -105,7 +107,9 @@ def get_includes(filepath:str) -> List[str]:
                     c = read1(fin)
                     if c == '\\':
                         c = read1(fin)
-                    elif c == '"' or c:
+                    elif c == '"':
+                        break
+                    elif c:
                         break
 
             elif c == '#':
