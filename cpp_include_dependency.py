@@ -45,7 +45,12 @@ def iswhitespace(c:str) -> bool:
 # ----------------------------------
 
 def read1(fin) -> str:
-    return fin.read(1)
+    try:
+        c = fin.read(1)
+    except:
+        print('Warning: character unsupported by \'utf-8\' codec encountered.')
+        c = '?'
+    return c
 
 
 def getcurpos(fin) -> int:
@@ -67,40 +72,41 @@ def get_filename_from_path(filepath:str) -> str:
 from typing import List
 
 def get_includes(filepath:str) -> List[str]:
+    print('get_includes:', filepath)
     includes = []
     with open(filepath) as fin:
         while True:
             c = read1(fin)
             if not c:
                 break
-            
-            # elif c == '/':
-            #     curpos = getcurpos(fin)
-            #     c = read1(fin)
-            #     if c == '/':    # ignoring single line comment
-            #         while c != '\n' and c:
-            #             c = read1(fin)
 
-            #     elif c == '*':  # ignoring multi line comment
-            #         while True:
-            #             c = read1(fin)
-            #             curpos = getcurpos(fin)
-            #             if c == '*':
-            #                 c = read1(fin)
-            #                 if c == '/':
-            #                     break
-            #                 else:
-            #                     setcurpos(fin, curpos)
-            #     else:
-            #         setcurpos(fin, curpos)
+            elif c == '/':
+                curpos = getcurpos(fin)
+                c = read1(fin)
+                if c == '/':    # ignoring single line comment
+                    while c != '\n' and c:
+                        c = read1(fin)
 
-            # elif c == '"':  # ignoring string
-            #     while True:
-            #         c = read1(fin)
-            #         if c == '\\':
-            #             c = read1(fin)
-            #         elif c == '"':
-            #             break
+                elif c == '*':  # ignoring multi line comment
+                    while True:
+                        c = read1(fin)
+                        curpos = getcurpos(fin)
+                        if c == '*':
+                            c = read1(fin)
+                            if c == '/':
+                                break
+                            else:
+                                setcurpos(fin, curpos)
+                else:
+                    setcurpos(fin, curpos)
+
+            elif c == '"':  # ignoring string
+                while True:
+                    c = read1(fin)
+                    if c == '\\':
+                        c = read1(fin)
+                    elif c == '"' or c:
+                        break
 
             elif c == '#':
                 word = ''
@@ -130,6 +136,7 @@ from os import listdir
 from os.path import isfile, join
 
 def get_filepaths_in_folder(folderpath:str, ignore_files:List[str]) -> List[str]:
+    print('get_filepaths_in_folder:', folderpath)
     list_filepaths = []
     for f in listdir(folderpath):
         if f not in ignore_files:
@@ -139,6 +146,7 @@ def get_filepaths_in_folder(folderpath:str, ignore_files:List[str]) -> List[str]
 
 
 def get_filepaths_in_folders(folderpaths:List[str], ignore_files:List[str]) -> List[str]:
+    print('get_filepaths_in_folders')
     list_filepaths = []
     for folderpath in folderpaths:
         list_filepaths += get_filepaths_in_folder(folderpath, ignore_files)
@@ -152,6 +160,7 @@ def get_filepaths_in_folders(folderpaths:List[str], ignore_files:List[str]) -> L
 from typing import Tuple
 
 def get_dependent_dependeny_tuple_list(folderpaths:List[str], ignore_files:List[str] = [], ignore_outside_files:bool = False) -> List[Tuple[str, str]]:
+    print('get_dependent_dependeny_tuple_list')
     dependent_dependency_tuple_list = []
     filepaths = []
     inside_files = []
@@ -166,4 +175,5 @@ def get_dependent_dependeny_tuple_list(folderpaths:List[str], ignore_files:List[
             if include not in ignore_files and (not ignore_outside_files or include in inside_files):
                 dependent_dependency_tuple_list.append((get_filename_from_path(filepath), include))
     
+    print('Returning dependent_dependency_tuple_list')
     return dependent_dependency_tuple_list
