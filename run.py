@@ -1,4 +1,5 @@
-from cpp_include_dependency import get_dependent_dependeny_tuple_list, draw_dependency_chart
+from cpp_include_dependency import get_dependent_dependeny_tuple_list
+from draw_dependency_chart import draw_dependency_chart
 
 folderpaths = [
     '/home/ess-017/Repository/EssCore/code/source/include/',
