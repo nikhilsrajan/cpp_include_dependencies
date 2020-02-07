@@ -35,7 +35,7 @@ dd_tuple_list = get_dependent_dependeny_tuple_list(folderpaths = folderpaths,
 
 # Draw dependency using graphviz and export as specified format
 # The nodes are color coloured from white to dark red based on how many files have included it
-draw_dependency_chart(dd_tuple_list, 'pdf')
+draw_dependency_chart(dd_tuple_list, draw_format='pdf', export_name='project_name')
 ```
 
 ## Dependencies
