@@ -27,9 +27,9 @@ ignore_outside_files = True
 # Get the dependencies as a list of (str, str) tuple -- (dependent, dependency)
 dd_tuple_list = get_dependent_dependeny_tuple_list(folderpaths, ignore_files, ignore_outside_files)
 
-# Draw dependency using graphviz and export as pdf
+# Draw dependency using graphviz and export as specified format
 # The nodes are color coloured from white to dark red based on how many files have included it
-draw_dependency_chart(dd_tuple_list)
+draw_dependency_chart(dd_tuple_list, 'pdf')
 ```
 
 ## Dependencies
