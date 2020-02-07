@@ -133,16 +133,24 @@ def get_includes(filepath:str) -> List[str]:
 # -------------------------------------------------------
 
 from os import listdir
-from os.path import isfile, join
+from os.path import isfile
+from re import split
+
+def myjoin(a:str, b:str):
+    split_a = split(r'[/\\]', a)
+    split_b = split(r'[/\\]', b)
+    joined_splits = [x for x in split_a if x != ''] + [x for x in split_b if x != '']
+    joined = '/'.join(joined_splits)
+    return joined
 
 def get_filepaths_in_folder(folderpath:str, ignore_files:List[str], recursive:bool=False) -> List[str]:
     print('get_filepaths_in_folder:', folderpath)
     list_filepaths = []
     for f in listdir(folderpath):
         if f not in ignore_files:
-            f_path = join(folderpath, f)
+            f_path = myjoin(folderpath, f)
             if isfile(f_path):
-                list_filepaths.append(join(folderpath, f))
+                list_filepaths.append(myjoin(folderpath, f))
             elif recursive:
                 list_filepaths += get_filepaths_in_folder(f_path, ignore_files, recursive)
 
