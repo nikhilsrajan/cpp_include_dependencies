@@ -73,33 +73,34 @@ def get_includes(filepath:str) -> List[str]:
             c = read1(fin)
             if not c:
                 break
-            elif c == '/':
-                curpos = getcurpos(fin)
-                c = read1(fin)
-                if c == '/':    # ignoring single line comment
-                    while c != '\n' and c:
-                        c = read1(fin)
+            
+            # elif c == '/':
+            #     curpos = getcurpos(fin)
+            #     c = read1(fin)
+            #     if c == '/':    # ignoring single line comment
+            #         while c != '\n' and c:
+            #             c = read1(fin)
 
-                elif c == '*':  # ignoring multi line comment
-                    while True:
-                        c = read1(fin)
-                        curpos = getcurpos(fin)
-                        if c == '*':
-                            c = read1(fin)
-                            if c == '/':
-                                break
-                            else:
-                                setcurpos(fin, curpos)
-                else:
-                    setcurpos(fin, curpos)
+            #     elif c == '*':  # ignoring multi line comment
+            #         while True:
+            #             c = read1(fin)
+            #             curpos = getcurpos(fin)
+            #             if c == '*':
+            #                 c = read1(fin)
+            #                 if c == '/':
+            #                     break
+            #                 else:
+            #                     setcurpos(fin, curpos)
+            #     else:
+            #         setcurpos(fin, curpos)
 
-            elif c == '"':  # ignoring string
-                while True:
-                    c = read1(fin)
-                    if c == '\\':
-                        c = read1(fin)
-                    elif c == '"':
-                        break
+            # elif c == '"':  # ignoring string
+            #     while True:
+            #         c = read1(fin)
+            #         if c == '\\':
+            #             c = read1(fin)
+            #         elif c == '"':
+            #             break
 
             elif c == '#':
                 word = ''
