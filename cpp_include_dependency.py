@@ -51,8 +51,10 @@ def read1(fin) -> str:
 def getcurpos(fin) -> int:
     return fin.tell()
 
+
 def setcurpos(fin, pos:int) -> None:
     fin.seek(pos)
+
 
 def get_filename_from_path(filepath:str) -> str:
     return filepath.split('/')[-1]
@@ -166,15 +168,6 @@ def get_dependent_dependeny_tuple_list(folderpaths:List[str], ignore_files:List[
     return dependent_dependency_tuple_list
 
 
-# ------------------------------
-# ----- printing functions -----
-# ------------------------------
-
-def print_list(mylist:list) -> None:
-    for item in mylist:
-        print(item)
-
-
 # ---------------------------------
 # ----- draw dependency chart -----
 # ---------------------------------
@@ -233,23 +226,3 @@ def draw_dependency_chart(dependent_dependeny_tuple_list:List[Tuple[str, str]]) 
         d.edge(dependent, dependency)
     
     d.render(view=True)
-        
-
-# ---------------
-# ----- run -----
-# ---------------
-
-folderpaths = [
-    '/home/ess-017/Repository/EssCore/code/source/include/',
-    '/home/ess-017/Repository/EssCore/code/source/src/',
-]
-
-ignore_files = [
-    'Export.h'
-]
-
-ignore_outside_files = True
-
-dd_tuple_list = get_dependent_dependeny_tuple_list(folderpaths, ignore_files, ignore_outside_files)
-
-draw_dependency_chart(dd_tuple_list)
