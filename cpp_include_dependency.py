@@ -44,6 +44,9 @@ def iswhitespace(c:str) -> bool:
 # ----- file related functions -----
 # ----------------------------------
 
+from re import split as re_split
+from typing import List
+
 def read1(fin) -> str:
     try:
         c = fin.read(1)
@@ -61,15 +64,17 @@ def setcurpos(fin, pos:int) -> None:
     fin.seek(pos)
 
 
+def mysplit(string:str) -> List[str]:
+    return re_split(r'[/\\]', string)
+
+
 def get_filename_from_path(filepath:str) -> str:
-    return filepath.split('/')[-1]
+    return mysplit(filepath)[-1]
 
 
 # --------------------------------------------------------------
 # ----- function to extract includes from a given filepath -----
 # --------------------------------------------------------------
-
-from typing import List
 
 def get_includes(filepath:str) -> List[str]:
     print('get_includes:', filepath)
@@ -136,24 +141,20 @@ def get_includes(filepath:str) -> List[str]:
 # ----- functions to get filepaths from a folder(s) -----
 # -------------------------------------------------------
 
-from os import listdir
-from os.path import isfile
-from re import split
+from os import listdir as os_listdir
+from os.path import isfile as os_path_isfile, join as os_path_join, normpath as os_path_normpath
 
 def myjoin(a:str, b:str):
-    split_a = split(r'[/\\]', a)
-    split_b = split(r'[/\\]', b)
-    joined_splits = [x for x in split_a if x != ''] + [x for x in split_b if x != '']
-    joined = '/'.join(joined_splits)
-    return joined
+    return os_path_normpath(os_path_join(a, b))
 
 def get_filepaths_in_folder(folderpath:str, ignore:List[str], recursive:bool=False) -> List[str]:
+    folderpath = os_path_normpath(folderpath)
     print('get_filepaths_in_folder:', folderpath)
     list_filepaths = []
-    for f in listdir(folderpath):
+    for f in os_listdir(folderpath):
         if f not in ignore:
             f_path = myjoin(folderpath, f)
-            if isfile(f_path):
+            if os_path_isfile(f_path):
                 list_filepaths.append(myjoin(folderpath, f))
             elif recursive:
                 list_filepaths += get_filepaths_in_folder(f_path, ignore, recursive)
