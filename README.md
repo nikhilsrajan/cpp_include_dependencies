@@ -40,11 +40,10 @@ draw_dependency_chart(dd_tuple_list, draw_format='pdf', export_name='project_nam
 
 ## Dependencies
 ### cpp_include_dependency.py
-- ```from typing import List, Tuple```
-- ```from os import listdir```
-- ```from os.path import isfile```
-- ```from re import split```
+- typing: List, Tuple
+- os: listdir
+- os.path: isfile, join, normpath
+- re: split
 ### draw_dependency_chart.py
-- ```from typing import Dict, List, Tuple```
-- ```from graphviz import Digraph```
-
+- typing: Dict, List, Tuple
+- graphviz: Digraph
